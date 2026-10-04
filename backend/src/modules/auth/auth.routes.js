@@ -15,7 +15,6 @@ router.post("/refresh-token", csrfProtect, refreshToken);
 router.post("/logout", csrfProtect, verifyToken, logout);
 router.post("/logout-all", verifyToken, logoutAll);
 
-
 // for auto login 
 router.get("/me", verifyToken, getMe);
 

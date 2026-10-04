@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Banana Math Game</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <main class="game-container">
+
+        <h1>🍌 Banana Math Game</h1>
+
+        <p class="subtitle">
+            Solve the question shown in the image.
+        </p>
+
+
+        <!-- Question -->
+        <section class="question-card">
+
+            <p class="question-label">
+                Question
+            </p>
+
+            <div class="image-container">
+
+                <img
+                    id="questionImage"
+                    src=""
+                    alt="Math question"
+                >
+
+            </div>
+
+        </section>
+
+
+        <!-- Answer buttons -->
+        <section class="answers">
+
+            <p class="answer-label">
+                Choose your answer
+            </p>
+
+            <div class="answer-buttons">
+
+                <button
+                    class="answer-button"
+                    data-answer="1"
+                >
+                    1
+                </button>
+
+                <button
+                    class="answer-button"
+                    data-answer="2"
+                >
+                    2
+                </button>
+
+                <button
+                    class="answer-button"
+                    data-answer="3"
+                >
+                    3
+                </button>
+
+                <button
+                    class="answer-button"
+                    data-answer="4"
+                >
+                    4
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- Result -->
+        <p
+            id="result"
+            class="result"
+            aria-live="polite"
+        ></p>
+
+
+        <!-- Score -->
+        <div class="score">
+
+            <span>
+                Score:
+            </span>
+
+            <strong id="score">
+                0
+            </strong>
+
+        </div>
+
+
+        <!-- Loading -->
+        <p
+            id="loading"
+            class="loading"
+        >
+            Loading question...
+        </p>
+
+    </main>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

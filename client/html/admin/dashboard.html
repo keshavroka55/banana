@@ -1,0 +1,53 @@
+<!-- html/admin/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Dashboard | Banana Game</title>
+    <link rel="stylesheet" href="../../css/styles.css" />
+    <link rel="stylesheet" href="../../css/admin/dashboard.css" />
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a class="brand" href="../../index.html">🍌 Banana Game</a>
+            <nav id="app-nav" class="app-nav"></nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="page-title">Admin Dashboard</h1>
+
+        <div id="dashboard-error" class="alert alert-error" hidden></div>
+
+        <!-- Stats ------------------------------------------------------ -->
+        <section class="stats-grid" id="stats-grid">
+            <div class="stat-card">
+                <span class="stat-label">Total Users</span>
+                <span class="stat-value" id="stat-total">—</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Players</span>
+                <span class="stat-value" id="stat-players">—</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Admin Users</span>
+                <span class="stat-value" id="stat-admins">—</span>
+            </div>
+        </section>
+
+        <!-- Quick actions --------------------------------------------- -->
+        <section class="card quick-actions">
+            <h2>Quick Actions</h2>
+            <div class="quick-actions-row">
+                <a class="btn btn-primary" href="./users.html">Manage Users</a>
+                <a class="btn btn-ghost" href="../game/game.html">Play Game</a>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="../../js/main.js"></script>
+    <script type="module" src="../../js/admin/dashboard.js"></script>
+</body>
+</html>

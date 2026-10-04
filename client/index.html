@@ -1,124 +1,34 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Banana Math Game</title>
-
-    <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Banana Game</title>
+    <link rel="stylesheet" href="css/styles.css" />
 </head>
-
 <body>
-
-    <main class="game-container">
-
-        <h1>🍌 Banana Math Game</h1>
-
-        <p class="subtitle">
-            Solve the question shown in the image.
-        </p>
-
-
-        <!-- Question -->
-        <section class="question-card">
-
-            <p class="question-label">
-                Question
-            </p>
-
-            <div class="image-container">
-
-                <img
-                    id="questionImage"
-                    src=""
-                    alt="Math question"
-                >
-
-            </div>
-
-        </section>
-
-
-        <!-- Answer buttons -->
-        <section class="answers">
-
-            <p class="answer-label">
-                Choose your answer
-            </p>
-
-            <div class="answer-buttons">
-
-                <button
-                    class="answer-button"
-                    data-answer="1"
-                >
-                    1
-                </button>
-
-                <button
-                    class="answer-button"
-                    data-answer="2"
-                >
-                    2
-                </button>
-
-                <button
-                    class="answer-button"
-                    data-answer="3"
-                >
-                    3
-                </button>
-
-                <button
-                    class="answer-button"
-                    data-answer="4"
-                >
-                    4
-                </button>
-
-            </div>
-
-        </section>
-
-
-        <!-- Result -->
-        <p
-            id="result"
-            class="result"
-            aria-live="polite"
-        ></p>
-
-
-        <!-- Score -->
-        <div class="score">
-
-            <span>
-                Score:
-            </span>
-
-            <strong id="score">
-                0
-            </strong>
-
+    <header class="site-header">
+        <div class="container">
+            <a class="brand" href="index.html">🍌 Banana Game</a>
+            <nav id="app-nav" class="app-nav"></nav>
         </div>
+    </header>
 
-
-        <!-- Loading -->
-        <p
-            id="loading"
-            class="loading"
-        >
-            Loading question...
+    <main class="container hero">
+        <h1>Banana Game</h1>
+        <p class="hero-text">
+            Guess the banana. Anyone can play — guests keep their score in the browser,
+            logged-in players save their results to their history.
         </p>
 
+        <div class="hero-actions">
+            <a class="btn btn-primary" href="html/game/game.html">Play Game</a>
+            <a class="btn btn-ghost" href="html/auth/login.html">Login</a>
+            <a class="btn btn-ghost" href="html/auth/register.html">Register</a>
+        </div>
     </main>
 
-
-    <script src="js/script.js"></script>
-
+    <script type="module" src="js/main.js"></script>
 </body>
-
 </html>

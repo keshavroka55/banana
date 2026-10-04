@@ -1,5 +1,5 @@
-const API_URL =
-    "https://marcconrad.com/uob/banana/api.php?out=json&base64=no";
+const API_URL = "http://localhost:5000/api/banana/question";
+
 
 const questionImage =
     document.getElementById("questionImage");
@@ -100,59 +100,58 @@ function displayOptions(options) {
 // ----------------------------------------
 // Load question
 // ----------------------------------------
-
 async function loadQuestion() {
 
     try {
 
+        console.log("Fetching question...");
+
         loading.style.display = "block";
-
         result.textContent = "";
-
         result.className = "result";
 
+        const response = await fetch(API_URL);
 
-        const response =
-            await fetch(API_URL);
-
+        console.log("HTTP status:", response.status);
 
         if (!response.ok) {
-
             throw new Error(
                 `HTTP error: ${response.status}`
             );
-
         }
 
+        const responseData = await response.json();
 
-        const data =
-            await response.json();
+        console.log("Full API response:", responseData);
 
+        if (!responseData.success) {
+            throw new Error("API returned success:false");
+        }
+
+        const data = responseData.data;
+
+        console.log("Question data:", data);
+
+        correctAnswer = Number(data.solution);
 
         console.log(
-            "API response:",
-            data
+            "Correct answer:",
+            correctAnswer
         );
 
+        questionImage.src = data.imageUrl;
 
-        // Save correct answer
-        correctAnswer =
-            Number(data.solution);
-
-
-        // Display question
-        questionImage.src =
-            data.question;
-
-
-        // Generate options
         const options =
             generateOptions(correctAnswer);
 
+        console.log(
+            "Generated options:",
+            options
+        );
 
-        // Display options
         displayOptions(options);
 
+        console.log("Question loaded successfully.");
 
     } catch (error) {
 
@@ -161,13 +160,11 @@ async function loadQuestion() {
             error
         );
 
-
         result.textContent =
             "Failed to load question.";
 
         result.className =
             "result wrong";
-
 
     } finally {
 

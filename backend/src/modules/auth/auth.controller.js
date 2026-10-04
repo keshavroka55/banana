@@ -71,7 +71,7 @@ export const register = async (req, res) => {
             return res.status(403).json({ message: "Admin registration is not allowed." });
         }
 
-        const allowedRole = ["food_lover", "chef"].includes(role) ? role : "food_lover";
+        const allowedRole = "player";
 
         if (!name || !email || !password) {
             return res.status(400).json({ message: "All fields are required" });
@@ -307,13 +307,14 @@ export const googleCallback = async (req, res) => {
 };
 
 // endpoint to update user role after Google login
+// this is not used right now. 
 export const updateRole = async (req, res) => {
     try {
         const { role } = req.body;
         const userId = req.user.id;
 
         // Validate role
-        if (!['food_lover', 'chef'].includes(role)) {
+        if (!['player'].includes(role)) {
             return res.status(400).json({ message: "Invalid role selected" });
         }
 
