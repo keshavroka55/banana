@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id         String   @id @default(uuid())
+  name       String
+  email      String   @unique
+  password   String?
+  role       Role     @default(player)
+  bio        String?
+  avatar     String?
+
+   // Google Auth related fields 
+  googleId            String?   @unique @map("google_id")
+  emailVerified       Boolean   @default(false) @map("email_verified")
+  emailVerificationToken String? @map("email_verification_token")
+  passwordResetToken  String?   @map("password_reset_token")
+  passwordResetExpiry DateTime? @map("password_reset_expiry")
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  refreshTokens RefreshToken[]
+  games Game[]
+
+  @@map("users")
+}
+
+enum Role {
+  player
+  admin
+}
+
+
+
+model RefreshToken {
+  id          String   @id @default(uuid())
+  tokenHash   String   @unique          // SHA-256 hash of the raw token
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  csrfToken   String                    // paired CSRF token
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  lastUsedAt  DateTime?
+
+  createdAt   DateTime @default(now())
+  userAgent   String?                   // optional: track device which broswer + device name. 
+  ipAddress   String?                   // optional: track origin IP (study on the logs management topic
+  
+  @@index([userId])
+}
+
+
+model Game {
+  id String @id @default(uuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Game information
+  score       Int
+  totalRounds Int?
+  correctAnswers Int?
+  wrongAnswers   Int?
+
+  // Game timing
+  startedAt   DateTime?
+  completedAt DateTime @default(now())
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([completedAt])
+  @@map("games")
+}
