@@ -16,14 +16,10 @@ The game uses the **Banana API** to generate random image-based math questions. 
 
 ## Technologies
 
-* HTML5
-* CSS3
-* JavaScript
-* Node.js
-* PostgreSql
-* Git & GitHub
-* Vercel
-* Render
+* React - Frontend 
+* Express.js - Backend
+* PostgreSql - Database
+* Git & GitHub - version control
 
 ---
 
