@@ -1,34 +1,14 @@
-<!-- index.html -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Banana Game</title>
-    <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
-    <header class="site-header">
-        <div class="container">
-            <a class="brand" href="index.html">🍌 Banana Game</a>
-            <nav id="app-nav" class="app-nav"></nav>
-        </div>
-    </header>
-
-    <main class="container hero">
-        <h1>Banana Game</h1>
-        <p class="hero-text">
-            Guess the banana. Anyone can play — guests keep their score in the browser,
-            logged-in players save their results to their history.
-        </p>
-
-        <div class="hero-actions">
-            <a class="btn btn-primary" href="html/game/game.html">Play Game</a>
-            <a class="btn btn-ghost" href="html/auth/login.html">Login</a>
-            <a class="btn btn-ghost" href="html/auth/register.html">Register</a>
-        </div>
-    </main>
-
-    <script type="module" src="js/main.js"></script>
-</body>
+    <link rel="icon" type="image/svg+xml" href="/banana.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Banana Math Game - solve the banana puzzle and climb the leaderboard." />
+    <title>Banana Math Game</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>
