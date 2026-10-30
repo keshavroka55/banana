@@ -1,5 +1,4 @@
 // only allow specific roles. 
-
 export const allowRoles = (...roles) => {
     return (req, res, next) => {
         if (!roles.includes(req.user?.role)) {

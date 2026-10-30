@@ -46,7 +46,7 @@ passport.use(
                                 name: profile.displayName,
                                 avatar: profile.photos[0]?.value,
                                 emailVerified: true,
-                                role: "food_lover",
+                                role: "player",
                             },
                         });
                         isNewUser = true; // Newly created user

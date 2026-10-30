@@ -15,7 +15,6 @@ router.post("/refresh-token", csrfProtect, refreshToken);
 router.post("/logout", csrfProtect, verifyToken, logout);
 router.post("/logout-all", verifyToken, logoutAll);
 
-
 // for auto login 
 router.get("/me", verifyToken, getMe);
 
@@ -35,7 +34,7 @@ router.get("/google/callback", passport.authenticate("google", {failureRedirect:
 // Role selection after Google login
 router.post("/update-role", verifyToken, updateRole);
 
-router.post("/forgot-password", forgotPassword);
-router.post("/reset-password", resetPasswordController);
+router.post("/forgot-password", forgotPassword); // validate the email and send the reset-password link to the user. 
+router.post("/reset-password", resetPasswordController); // password change logic
 
 export default router;
