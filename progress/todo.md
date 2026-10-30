@@ -53,6 +53,9 @@
 * [ ] Create simple admin dashboard
 * [ ] Protect admin routes
 
+test the backend & connect the dots on the client side. 
+
+
 ---
 
 ## Phase 4 — Event-Driven Architecture
@@ -67,6 +70,8 @@
 * [ ] Send welcome email from the worker
 * [ ] Test registration → RabbitMQ → email worker
 
+test it. 
+
 ### Game Event
 
 * [ ] Create `GameCompleted` event
@@ -74,6 +79,8 @@
 * [ ] Create simple statistics/leaderboard processing
 * [ ] Test `GameCompleted` event
 * [ ] Test RabbitMQ failure handling
+
+work on this queue. 
 
 ---
 
@@ -87,9 +94,12 @@
 * [ ] Create Pull Requests
 * [ ] Review Pull Requests
 * [ ] Merge Pull Requests
-* [ ] Create final release/tag `v1.0.0`
+* [ ] Create final release/tag `v1.0.0` 
 * [ ] Add GitHub Actions
 * [ ] Test `push → install → test → build`
+
+have to create this tag of first version. 
+
 
 ---
 

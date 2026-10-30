@@ -2,8 +2,6 @@
 
 The game uses the **Banana API** to generate random image-based math questions. The player selects an answer from four options and receives immediate feedback while their score is tracked.
 
-**Live Demo:** https://banana-game-rouge.vercel.app/
-
 ---
 
 ## Features
@@ -22,9 +20,10 @@ The game uses the **Banana API** to generate random image-based math questions. 
 * CSS3
 * JavaScript
 * Node.js
-* Banana API
+* PostgreSql
 * Git & GitHub
 * Vercel
+* Render
 
 ---
 

@@ -57,25 +57,52 @@ model RefreshToken {
 }
 
 
+
+enum GameStatus {
+  in_progress
+  completed
+}
+
 model Game {
   id String @id @default(uuid())
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  // Game information
-  score       Int
-  totalRounds Int?
-  correctAnswers Int?
-  wrongAnswers   Int?
+  status GameStatus @default(in_progress)
 
-  // Game timing
-  startedAt   DateTime?
-  completedAt DateTime @default(now())
+  score          Int @default(0)
+  totalRounds    Int @default(10)
+  correctAnswers Int @default(0)
+  wrongAnswers   Int @default(0)
 
-  createdAt DateTime @default(now())
+  startedAt   DateTime  @default(now())
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+
+  questions Question[]
 
   @@index([userId])
   @@index([completedAt])
+  @@index([status])
   @@map("games")
 }
+
+model Question {
+  id       String @id @default(uuid())
+  imageUrl String
+  solution Int
+  options  Int[]
+  source   String
+
+  gameId String?
+  game   Game? @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  expiresAt  DateTime
+  answeredAt DateTime?
+  createdAt  DateTime @default(now())
+
+  @@index([gameId])
+  @@map("questions")
+}
+

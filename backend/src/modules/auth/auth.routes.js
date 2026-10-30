@@ -34,7 +34,7 @@ router.get("/google/callback", passport.authenticate("google", {failureRedirect:
 // Role selection after Google login
 router.post("/update-role", verifyToken, updateRole);
 
-router.post("/forgot-password", forgotPassword);
-router.post("/reset-password", resetPasswordController);
+router.post("/forgot-password", forgotPassword); // validate the email and send the reset-password link to the user. 
+router.post("/reset-password", resetPasswordController); // password change logic
 
 export default router;

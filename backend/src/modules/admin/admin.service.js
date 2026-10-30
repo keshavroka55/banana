@@ -1,105 +1,99 @@
 import prisma from "../../prisma.js";
-import bcrypt from "bcrypt";
+import { getLeaderboard } from "../leaderboard/leaderboard.service.js";
 
-export const getAllUsers = async () => {
-  return prisma.user.findMany({
-    orderBy: {
-      createdAt: "desc",
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      bio: true,
-      avatar: true,
-      emailVerified: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  });
-};
+const PAGE_SIZE = 10;
 
-export const getUserById = async (id) => {
-  return prisma.user.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      bio: true,
-      avatar: true,
-      emailVerified: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  });
-};
+// ─── Dashboard numbers ───────────────────────────────────────────────────────
+export async function getStats() {
+    const [totalUsers, totalAdmins, completedGames, inProgressGames, scoreAverage, recentGames, leaderboard] =
+        await Promise.all([
+            prisma.user.count(),
+            prisma.user.count({ where: { role: "admin" } }),
+            prisma.game.count({ where: { status: "completed" } }),
+            prisma.game.count({ where: { status: "in_progress" } }),
+            prisma.game.aggregate({ where: { status: "completed" }, _avg: { score: true } }),
+            prisma.game.findMany({
+                where: { status: "completed" },
+                orderBy: { completedAt: "desc" },
+                take: 5,
+                include: { user: { select: { name: true } } },
+            }),
+            getLeaderboard({ limit: 5 }),
+        ]);
 
-export const createUser = async (data) => {
-  const hashedPassword = data.password
-    ? await bcrypt.hash(data.password, 10)
-    : null;
+    return {
+        totalUsers,
+        totalAdmins,
+        completedGames,
+        inProgressGames,
+        averageScore: Math.round(scoreAverage._avg.score ?? 0),
+        recentGames: recentGames.map(toGameRow),
+        topPlayers: leaderboard.entries,
+    };
+}
 
-  return prisma.user.create({
-    data: {
-      name: data.name,
-      email: data.email,
-      password: hashedPassword,
-      role: data.role ?? "player",
-      bio: data.bio,
-      avatar: data.avatar,
-    },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      bio: true,
-      avatar: true,
-      createdAt: true,
-    },
-  });
-};
+// ─── Users (search + pagination) ─────────────────────────────────────────────
+export async function listUsers({ search, page = 1 }) {
+    const where = search
+        ? {
+              OR: [
+                  { name: { contains: search, mode: "insensitive" } },
+                  { email: { contains: search, mode: "insensitive" } },
+              ],
+          }
+        : {};
 
-export const updateUser = async (id, data) => {
-  const updateData = {
-    name: data.name,
-    email: data.email,
-    role: data.role,
-    bio: data.bio,
-    avatar: data.avatar,
-  };
+    const [total, users] = await Promise.all([
+        prisma.user.count({ where }),
+        prisma.user.findMany({
+            where,
+            orderBy: { createdAt: "desc" },
+            skip: (page - 1) * PAGE_SIZE,
+            take: PAGE_SIZE,
+            // select = whitelist. Password hashes and tokens are never returned.
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                role: true,
+                emailVerified: true,
+                createdAt: true,
+                _count: { select: { games: { where: { status: "completed" } } } },
+            },
+        }),
+    ]);
 
-  if (data.password) {
-    updateData.password = await bcrypt.hash(data.password, 10);
-  }
+    return {
+        users: users.map(({ _count, ...user }) => ({ ...user, gamesPlayed: _count.games })),
+        page,
+        pageSize: PAGE_SIZE,
+        total,
+    };
+}
 
-  return prisma.user.update({
-    where: {
-      id,
-    },
-    data: updateData,
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      role: true,
-      bio: true,
-      avatar: true,
-      emailVerified: true,
-      updatedAt: true,
-    },
-  });
-};
+// ─── Game records (pagination) ───────────────────────────────────────────────
+export async function listGames({ page = 1 }) {
+    const [total, games] = await Promise.all([
+        prisma.game.count(),
+        prisma.game.findMany({
+            orderBy: { startedAt: "desc" },
+            skip: (page - 1) * PAGE_SIZE,
+            take: PAGE_SIZE,
+            include: { user: { select: { name: true } } },
+        }),
+    ]);
 
-export const deleteUser = async (id) => {
-  return prisma.user.delete({
-    where: {
-      id,
-    },
-  });
-};
+    return { games: games.map(toGameRow), page, pageSize: PAGE_SIZE, total };
+}
+
+const toGameRow = (game) => ({
+    id: game.id,
+    playerName: game.user.name,
+    status: game.status,
+    score: game.score,
+    correctAnswers: game.correctAnswers,
+    wrongAnswers: game.wrongAnswers,
+    totalRounds: game.totalRounds,
+    startedAt: game.startedAt,
+    completedAt: game.completedAt,
+});
